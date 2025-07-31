@@ -23,8 +23,8 @@
 
     .envelope-container {
       position: relative;
-      width: 280px;
-      height: 180px;
+      width: 300px;
+      height: 200px;
       perspective: 1000px;
       cursor: pointer;
     }
@@ -56,27 +56,22 @@
 
     .letter {
       position: absolute;
-      top: 50%;
+      bottom: -100%;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: 200%;
       background: #fff0f5;
       padding: 20px;
       box-sizing: border-box;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 1s ease;
-      z-index: 1;
-    }
-
-    .letter h3 {
-      margin-top: 0;
-      color: #d6336c;
-      font-size: 20px;
-    }
-
-    .letter p {
+      text-align: left;
       color: #333;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-y: auto;
+      transition: bottom 1s ease, opacity 1s ease;
+      opacity: 0;
+      z-index: 1;
+      border-top: 2px solid #d6336c;
     }
 
     .envelope.open .flap {
@@ -84,6 +79,7 @@
     }
 
     .envelope.open .letter {
+      bottom: 0;
       opacity: 1;
     }
 
@@ -160,9 +156,21 @@
   <div class="envelope" id="envelope">
     <div class="flap"></div>
     <div class="letter">
-      <h3>To the Love of My Life 💖</h3>
-      <p>Every day with you feels like a dream I never want to wake up from.  
-      Thank you for being my everything. I love you, now and forever. 💌</p>
+      <h3>Trial Message</h3>
+      <p>
+        This is a trial message inside the folded paper.  
+        You can write a long heartfelt letter here — for example:
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.  
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+      <p>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+      <p>💖 With love, always.</p>
     </div>
   </div>
   <div class="click-text">Click the envelope to open</div>
@@ -178,24 +186,22 @@
     const openSound = document.getElementById("openSound");
     const hearts = document.getElementById("hearts");
 
-    // Toggle open class
     envelope.classList.toggle("open");
 
-    // Play sound
-    openSound.currentTime = 0;
-    openSound.play();
+    // Play sound only when opening
+    if (envelope.classList.contains("open")) {
+      openSound.currentTime = 0;
+      openSound.play();
 
-    // Create heart animations
-    for (let i = 0; i < 10; i++) {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.style.left = Math.random() * 100 + "%";
-      heart.style.animationDelay = (Math.random() * 0.5) + "s";
-      hearts.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 2000);
+      // Create floating hearts
+      for (let i = 0; i < 10; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "%";
+        heart.style.animationDelay = (Math.random() * 0.5) + "s";
+        hearts.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }
     }
   }
 </script>
