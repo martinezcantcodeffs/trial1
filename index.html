@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Love Letter Envelope</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    .envelope-container {
+      position: relative;
+      width: 280px;
+      height: 180px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .envelope {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border: 2px solid #555;
+      border-radius: 6px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.6s ease;
+    }
+
+    .flap {
+      width: 100%;
+      height: 50%;
+      background: #ffcbcb;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top;
+      transform: rotateX(0deg);
+      transition: transform 0.7s ease-in-out;
+      z-index: 2;
+    }
+
+    .letter {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff0f5;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 1;
+    }
+
+    .letter h3 {
+      margin-top: 0;
+      color: #d6336c;
+      font-size: 20px;
+    }
+
+    .letter p {
+      color: #333;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(-160deg);
+    }
+
+    .envelope.open .letter {
+      opacity: 1;
+    }
+
+    .click-text {
+      position: absolute;
+      bottom: -40px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+      animation: fadein 2s ease infinite alternate;
+    }
+
+    @keyframes fadein {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .hearts {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: floatUp 2s ease forwards;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -150px) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="envelope-container" onclick="toggleOpen()">
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+    <div class="letter">
+      <h3>To the Love of My Life 💖</h3>
+      <p>Every day with you feels like a dream I never want to wake up from.  
+      Thank you for being my everything. I love you, now and forever. 💌</p>
+    </div>
+  </div>
+  <div class="click-text">Click the envelope to open</div>
+  <div class="hearts" id="hearts"></div>
+</div>
+
+<!-- Sound effect -->
+<audio id="openSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_777ad5a1bb.mp3" preload="auto"></audio>
+
+<script>
+  function toggleOpen() {
+    const envelope = document.getElementById("envelope");
+    const openSound = document.getElementById("openSound");
+    const hearts = document.getElementById("hearts");
+
+    // Toggle open class
+    envelope.classList.toggle("open");
+
+    // Play sound
+    openSound.currentTime = 0;
+    openSound.play();
+
+    // Create heart animations
+    for (let i = 0; i < 10; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.animationDelay = (Math.random() * 0.5) + "s";
+      hearts.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 2000);
+    }
+  }
+</script>
+
+</body>
+</html>
